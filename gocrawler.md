@@ -57,4 +57,38 @@ Options提供hoos和customizations。其中UserAgent和RobotUserAgent需要设�
 
 #### Extender
 
+基本函数
 
+*   Start(seeds interface{}) interface{}
+*   End(err error)
+*   Error(err *CrawlError)
+*   Log(logFlags LogFlags, msgLevel LogFlags, msg string)
+*   ComputeDelay(host string, di *DelayInfo, lastFetch *FetchInfo) time.Duration
+
+处理URLs的相关函数
+
+*   HeadBeforeGet bool
+*   State interface{}
+*   URL() *url.URL 
+*   NormalizedURL() *url.URL
+*   SourceURL() *url.URL
+*   NormalizedSourceURL() *url.URL
+*   IsRobotsURL() bool
+
+以及其它函数：
+
+*   Fetch(ctx *URLContext, userAgent string, headRequest bool) (*http.Response, error) 请求URL的函数
+*   RequestGet(ctx *URLContext, headRes *http.Response) bool 当需要HEAD时调用
+*   RequestRobots(ctx *URLContext, robotAgent string) (data []byte, request bool) 询问是否请求robots.txt URL 
+*   FetchedRobots(ctx *URLContext, res *http.Response) 当从host获取到robots.txt时调用
+*   Filter(ctx *URLContext, isVisited bool) bool 过滤URLs
+*   Enqueued(ctx *URLContext) 将URL放到队列中
+*   Visit(ctx *URLContext, res *http.Response, doc *goquery.Document) (harvested interface{}, findLinks bool) 访问URL 
+*   Visited(ctx *URLContext, harvested interface{}) 当请求过时调用
+*   Disallowed(ctx *URLContext) 当robots.txt规则拒绝请求指定URL时调用
+
+EnqueueChan 表示一个cahnnel它接收上述各种URL类型（string, *url.URL等）
+
+DefaultExtender自带一个EnqueueChan, 所以当它被匿名嵌入一个结构体，则该结构体自动拥有EnqueueChan的能力。
+
+请求发生出错的URL会在Error()中重新放入队列中。
