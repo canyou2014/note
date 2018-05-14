@@ -28,4 +28,5 @@ export PATH=$PATH:$GOPATH/bin
 
 其中vim-go需要执行`:GoInstallBinaries`将二进制安装，在这之前先安装`golang.org/x/tool`， `golang.org/x/lint`等go的package
 
-- TODO
+
+https://github.com/caixw/VimIDE.git
