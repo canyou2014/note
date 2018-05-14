@@ -25,6 +25,7 @@ export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 ```
 #### vim
+Vundle安装插件： `PluginInstall`
 
 其中vim-go需要执行`:GoInstallBinaries`将二进制安装，在这之前先安装`golang.org/x/tool`， `golang.org/x/lint`等go的package
 
